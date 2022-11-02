@@ -133,8 +133,10 @@ class LoadingEffect {
       list.add(Container(
           padding: FxSpacing.fromLTRB(16, 8, 16, 8), child: singleLoading));
     }
-    return Column(
-      children: list,
+    return SingleChildScrollView(
+      child: Column(
+        children: list,
+      ),
     );
   }
 

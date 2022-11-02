@@ -29,6 +29,8 @@ class _FullAppState extends State<FullApp> with SingleTickerProviderStateMixin {
   late ThemeData theme;
   late FullAppController controller;
   bool isDark = false;
+                final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
+
 
   @override
   void initState() {
@@ -282,11 +284,11 @@ class _FullAppState extends State<FullApp> with SingleTickerProviderStateMixin {
       );
     }
 
-    final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
 
     return FxBuilder<FullAppController>(
         controller: controller,
         builder: (shoppingFullAppController) {
+
           return Scaffold(
             drawer: _buildDrawer(),
             key: _key, // Assign the key to Scaffold.

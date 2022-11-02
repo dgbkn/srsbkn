@@ -21,14 +21,23 @@ class MusicPlayerState extends State<MusicPlayer> {
   bool isPlaying = false;
   final AudioPlayer player = AudioPlayer();
 
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
   void initState() {
     super.initState();
     setSong(widget.songInfo);
   }
 
   void dispose() {
+    try {
+      player.dispose();
+    } catch (es) {}
     super.dispose();
-    player.dispose();
   }
 
   void setSong(songInfo) async {
@@ -84,40 +93,40 @@ class MusicPlayerState extends State<MusicPlayer> {
         title: Text('Now Playing',
             style: TextStyle(color: isDark ? Colors.white : Colors.black)),
       ),
-      body: Container(
-        margin: EdgeInsets.fromLTRB(5, 57, 5, 0),
-        child: Column(children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment(-1.0, -4.0),
-                    end: Alignment(1.0, 4.0),
-                    colors: [
-                      isDark ? Colors.black : Colors.white,
-                      isDark ? Colors.black : Colors.white,
-                    ]),
-                borderRadius: BorderRadius.all(Radius.circular(35)),
-                boxShadow: [
-                  BoxShadow(
-                      color: isDark ? Colors.black : Colors.grey,
-                      offset: Offset(5.0, 5.0),
-                      blurRadius: 15.0,
-                      spreadRadius: 1.0),
-                  BoxShadow(
-                      color: isDark ? Colors.black : Colors.grey,
-                      offset: Offset(-5.0, -5.0),
-                      blurRadius: 18.0,
-                      spreadRadius: 10.0),
-                ]),
-            child: Image(
-              image: AssetImage('assets/gurujii.jpg'),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.fromLTRB(5, 57, 5, 0),
+          child: Column(children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment(-1.0, -4.0),
+                      end: Alignment(1.0, 4.0),
+                      colors: [
+                        isDark ? Colors.black : Colors.white,
+                        isDark ? Colors.black : Colors.white,
+                      ]),
+                  borderRadius: BorderRadius.all(Radius.circular(35)),
+                  boxShadow: [
+                    BoxShadow(
+                        color: isDark ? Colors.black : Colors.grey,
+                        offset: Offset(5.0, 5.0),
+                        blurRadius: 15.0,
+                        spreadRadius: 1.0),
+                    BoxShadow(
+                        color: isDark ? Colors.black : Colors.grey,
+                        offset: Offset(-5.0, -5.0),
+                        blurRadius: 18.0,
+                        spreadRadius: 10.0),
+                  ]),
+              child: Image(
+                image: AssetImage('assets/gurujii.jpg'),
+              ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Expanded(
+            Container(
+              margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Text(widget.songInfo["title"],
                     style: GoogleFonts.montserrat(
                         color: isDark ? Colors.white : Colors.black,
@@ -125,115 +134,115 @@ class MusicPlayerState extends State<MusicPlayer> {
                         fontWeight: FontWeight.w600)),
               ),
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(5, 5, 5, 33),
-            child: Text(
-              widget.songInfo["description"],
-              style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w500),
+            SizedBox(
+              height: 10,
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Slider(
-            inactiveColor: isDark ? Colors.white54 : Colors.black12,
-            activeColor: Colors.redAccent,
-            min: minimumValue,
-            max: maximumValue,
-            value: currentValue,
-            onChanged: (value) {
-              currentValue = value;
-              player.seek(Duration(milliseconds: currentValue.round()));
-            },
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            transform: Matrix4.translationValues(0, -15, 0),
-            margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(currentTime,
-                    style: TextStyle(
-                        color: isDark ? Colors.white : Colors.black,
-                        fontSize: 12.5,
-                        fontWeight: FontWeight.w500)),
-                Text(endTime,
-                    style: TextStyle(
-                        color: isDark ? Colors.white : Colors.black,
-                        fontSize: 12.5,
-                        fontWeight: FontWeight.w500))
-              ],
+            Container(
+              margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
+              child: Text(
+                widget.songInfo["description"],
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500),
+              ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                // GestureDetector(
-                //   child:
-                //       Icon(Icons.skip_previous, color: Colors.black, size: 55),
-                //   behavior: HitTestBehavior.translucent,
-                //   onTap: () {
-                //     widget.changeTrack(false);
-                //   },
-                // ),
-                Stack(
-                  children: [
-                    !buffered
-                        ? Center(
-                            child: SizedBox(
-                              height: 100.0,
-                              width: 100.0,
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  Theme.of(context).iconTheme.color!,
+            SizedBox(
+              height: 10,
+            ),
+            Slider(
+              inactiveColor: isDark ? Colors.white54 : Colors.black12,
+              activeColor: Colors.redAccent,
+              min: minimumValue,
+              max: maximumValue,
+              value: currentValue,
+              onChanged: (value) {
+                currentValue = value;
+                player.seek(Duration(milliseconds: currentValue.round()));
+              },
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              transform: Matrix4.translationValues(0, -15, 0),
+              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(currentTime,
+                      style: TextStyle(
+                          color: isDark ? Colors.white : Colors.black,
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w500)),
+                  Text(endTime,
+                      style: TextStyle(
+                          color: isDark ? Colors.white : Colors.black,
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w500))
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // GestureDetector(
+                  //   child:
+                  //       Icon(Icons.skip_previous, color: Colors.black, size: 55),
+                  //   behavior: HitTestBehavior.translucent,
+                  //   onTap: () {
+                  //     widget.changeTrack(false);
+                  //   },
+                  // ),
+                  Stack(
+                    children: [
+                      !buffered
+                          ? Center(
+                              child: SizedBox(
+                                height: 100.0,
+                                width: 100.0,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Theme.of(context).iconTheme.color!,
+                                  ),
                                 ),
                               ),
-                            ),
-                          )
-                        : SizedBox(),
-                    Center(
-                      child: SizedBox(
-                        height: 100.0,
-                        width: 100.0,
-                        child: GestureDetector(
-                          child: Icon(
-                              isPlaying
-                                  ? Icons.pause_circle_filled_rounded
-                                  : Icons.play_circle_fill_rounded,
-                              color: isDark ? Colors.white : Colors.black,
-                              size: 85),
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {
-                            changeStatus();
-                          },
+                            )
+                          : SizedBox(),
+                      Center(
+                        child: SizedBox(
+                          height: 100.0,
+                          width: 100.0,
+                          child: GestureDetector(
+                            child: Icon(
+                                isPlaying
+                                    ? Icons.pause_circle_filled_rounded
+                                    : Icons.play_circle_fill_rounded,
+                                color: isDark ? Colors.white : Colors.black,
+                                size: 85),
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () {
+                              changeStatus();
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                // GestureDetector(
-                //   child: Icon(Icons.skip_next, color: Colors.black, size: 55),
-                //   behavior: HitTestBehavior.translucent,
-                //   onTap: () {
-                //     widget.changeTrack(true);
-                //   },
-                // ),
-              ],
+                    ],
+                  ),
+                  // GestureDetector(
+                  //   child: Icon(Icons.skip_next, color: Colors.black, size: 55),
+                  //   behavior: HitTestBehavior.translucent,
+                  //   onTap: () {
+                  //     widget.changeTrack(true);
+                  //   },
+                  // ),
+                ],
+              ),
             ),
-          ),
-        ]),
+          ]),
+        ),
       ),
     );
   }
