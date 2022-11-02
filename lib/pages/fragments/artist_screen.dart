@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:srsbkn/loading_effect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -42,8 +43,13 @@ class _ArtistScreenState extends State<ArtistScreen> {
           FxContainer(
             paddingAll: 0,
             clipBehavior: Clip.hardEdge,
-            child: Image.network(artist["avatar"],
-                height: 80, width: 80, fit: BoxFit.fill),
+            child: CachedNetworkImage(
+                imageUrl: artist["avatar"],
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+                height: 80,
+                width: 80,
+                fit: BoxFit.fill),
           ),
           FxSpacing.width(16),
           Expanded(

@@ -52,6 +52,7 @@ dependencies:
   intl: ^0.17.0
   rive: ^0.8.4
   flare_flutter: ^3.0.2
+  cached_network_image: ^3.2.2
 
 #  Musics player
   # get_it: ^7.2.0

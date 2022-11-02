@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:srsbkn/loading_effect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -49,8 +50,11 @@ class _GenreScreenState extends State<GenreScreen> {
                   tag: genre["id"],
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(8)),
-                    child: Image.network(
-                      genre["background_thumb"],
+                    child: CachedNetworkImage(
+                      imageUrl: genre["background_thumb"],
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                       width: MediaQuery.of(context).size.width,
                       fit: BoxFit.cover,
                     ),
