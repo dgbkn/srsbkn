@@ -87,7 +87,7 @@ class _FullAppState extends State<FullApp> with SingleTickerProviderStateMixin {
 
     void launchWebsite() async {
       String url = "https://srsbkn.ga/";
-      await launchUrl(Uri.parse(url));
+      await launchUrl(Uri.parse(url),mode: LaunchMode.externalApplication);
     }
 
     void launchAmritwani(context){
@@ -153,9 +153,6 @@ class _FullAppState extends State<FullApp> with SingleTickerProviderStateMixin {
                           FxContainer(
                             paddingAll: 12,
                             borderRadiusAll: 4,
-                            child: SizedBox(
-                              height: 20,
-                              width: 20,
                               child: !isDark
                                   ? Icon(
                                       FeatherIcons.book,
@@ -165,11 +162,11 @@ class _FullAppState extends State<FullApp> with SingleTickerProviderStateMixin {
                                       FeatherIcons.bookOpen,
                                       color: CustomTheme.orange,
                                     ),
-                            ),
+                            
                             color: CustomTheme.orange.withAlpha(20),
                           ),
                           FxSpacing.width(16),
-                          Expanded(
+                          Container(
                             child: FxText.bodyLarge(
                               'Amritwani'.tr(),
                             ),
@@ -199,10 +196,8 @@ class _FullAppState extends State<FullApp> with SingleTickerProviderStateMixin {
                             paddingAll: 12,
                             borderRadiusAll: 4,
                             color: CustomTheme.occur.withAlpha(20),
-                            child: SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: !isDark
+                            child: 
+                              !isDark
                                   ? Icon(
                                       FeatherIcons.moon,
                                       color: CustomTheme.occur,
@@ -211,10 +206,10 @@ class _FullAppState extends State<FullApp> with SingleTickerProviderStateMixin {
                                       FeatherIcons.sunrise,
                                       color: CustomTheme.occur,
                                     ),
-                            ),
+                            
                           ),
                           FxSpacing.width(16),
-                          Expanded(
+                          Container(
                             child: FxText.bodyLarge(
                               !isDark ? 'Dark Mode'.tr() : 'Light Mode'.tr(),
                             ),
@@ -251,9 +246,7 @@ class _FullAppState extends State<FullApp> with SingleTickerProviderStateMixin {
                           FxContainer(
                             paddingAll: 12,
                             borderRadiusAll: 4,
-                            child: SizedBox(
-                              height: 20,
-                              width: 20,
+                    
                               child: !isDark
                                   ? Icon(
                                       FeatherIcons.link,
@@ -263,11 +256,11 @@ class _FullAppState extends State<FullApp> with SingleTickerProviderStateMixin {
                                       FeatherIcons.link2,
                                       color: CustomTheme.skyBlue,
                                     ),
-                            ),
+                            
                             color: CustomTheme.skyBlue.withAlpha(20),
                           ),
                           FxSpacing.width(16),
-                          Expanded(
+                          Container(
                             child: FxText.bodyLarge(
                               'Open Website'.tr(),
                             ),

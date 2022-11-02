@@ -82,7 +82,7 @@ class _ArtistScreenState extends State<ArtistScreen> {
                     FxSpacing.width(8),
                     Expanded(
                         child: FxText.bodySmall(
-                      artist["about"],
+                      "Artist",
                       xMuted: true,
                     )),
                   ],
